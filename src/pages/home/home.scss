@@ -1,0 +1,27 @@
+page-home {
+  ion-header .toolbar-background {
+    background-color: #007DAD !important;
+    }
+  ion-title .toolbar-title {
+    color: #fff !important;
+    }
+  ion-content {
+    background-color: #C9EAF8 !important;
+    }
+  ion-input {
+    border-bottom: 1px solid #ccc;
+    }
+  ion-card, ion-item {
+    background-color: #fafafa !important;
+    }
+  #done {
+     text-align: center;
+     color: #555;
+     p.large {
+       font-size: 2em;
+     }
+     ion-icon {
+       font-size: 8em;
+     }
+   }
+}

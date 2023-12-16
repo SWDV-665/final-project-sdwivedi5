@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      ReviewQ
+    </ion-title>
+    <ion-buttons end>
+      <button
+         *ngIf="userdata.username"
+         icon-only
+         ion-button
+         (click)="logout()">
+        <ion-icon name="exit" color="light"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Login form -->
+  <form #loginCreds="ngForm"
+        *ngIf="!userdata.username"
+        (ngSubmit)="login(loginCreds.value)">
+    <ion-card>
+      <ion-card-header>
+        Login to Plone
+      </ion-card-header>
+    <ion-item>
+      <ion-label color="primary"
+                 stacked>Plone Site URL</ion-label>
+      <ion-input type="text" name="ploneurl" ngModel
+                 autocapitalize="off"
+                 placeholder="https://"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary"
+                 stacked>Username</ion-label>
+      <ion-input type="text" name="username" ngModel
+                 autocapitalize="off"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label color="primary"
+                 stacked>Password</ion-label>
+      <ion-input type="password" name="password" ngModel
+                 autocapitalize="off"></ion-input>
+    </ion-item>
+
+    <div padding>
+      <button
+         ion-button type="submit" block
+         [disabled]="!(loginCreds.value.username && loginCreds.value.password)">Login</button>
+    </div>
+    </ion-card>
+
+  </form>
+  <!-- End login form -->
+
+  <!-- Pull to refresh -->
+  <ion-refresher (ionRefresh)="doRefresh($event)"
+                 *ngIf="userdata.username">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Logged in listing -->
+  <div *ngIf="userdata.username">
+    <ion-card *ngFor="let item of items" tappable
+              (click)="selectItem(item)">
+      <ion-card-header>
+        {{ item.title }}
+      </ion-card-header>
+      <ion-card-content *ngIf="item.description">
+        <p>
+          {{ item.description }}
+        </p>
+        <p>
+          <em>Created by {{ item.Creator }} {{ item.created | amTimeAgo }}</em>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!-- End listing -->
+
+  <!-- no items -->
+  <ion-card id="done" *ngIf="userdata.username && !items.length">
+    <ion-card-content>
+    <ion-icon name="checkmark" color="secondary"></ion-icon>
+    <p class="large">You're all done!</p>
+    <p>There are no items for you to review.</p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
